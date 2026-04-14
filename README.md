@@ -290,3 +290,66 @@ Copy and fill in:
 ```bash
 cp .env.example .env
 ```
+## 4. Configuration Layer
+ 
+### config/settings.py
+ 
+```python
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
+ 
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+ 
+    # LLM
+    openai_api_key: str = ""
+    anthropic_api_key: str = ""
+    llm_provider: str = "openai"
+    llm_model: str = "gpt-4o"
+ 
+    # PubMed
+    ncbi_api_key: str = ""
+ 
+    # Qdrant
+    qdrant_host: str = "localhost"
+    qdrant_port: int = 6333
+    qdrant_collection: str = "scirag_chunks"
+ 
+    # Neo4j
+    neo4j_uri: str = "bolt://localhost:7687"
+    neo4j_user: str = "neo4j"
+    neo4j_password: str = "password"
+ 
+    # Elasticsearch
+    es_host: str = "http://localhost:9200"
+    es_index: str = "scirag_bm25"
+ 
+    # Redis
+    redis_url: str = "redis://localhost:6379/0"
+ 
+    # MinIO
+    minio_endpoint: str = "localhost:9000"
+    minio_access_key: str = "minioadmin"
+    minio_secret_key: str = "minioadmin"
+    minio_bucket: str = "scirag-pdfs"
+ 
+    # GROBID / Nougat
+    grobid_url: str = "http://localhost:8070"
+    nougat_url: str = "http://localhost:8071"
+ 
+    # Embedding models
+    text_embed_model: str = "allenai/scibert_scivocab_uncased"
+    table_embed_model: str = "google/tapas-base"
+    clip_model: str = "microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224"
+ 
+    # Retrieval
+    top_k_dense: int = 50
+    top_k_keyword: int = 20
+    top_k_graph: int = 15
+    rerank_top_n: int = 10
+    max_hops: int = 3
+ 
+settings = Settings()
+```
+ 
+---
